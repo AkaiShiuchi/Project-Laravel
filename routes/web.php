@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\UserController;
 
 
 
@@ -17,3 +18,5 @@ Route::post('/handleLogin', [RegistrationController::class, 'handleLogin'])->nam
 
 Route::get('/home', [RegistrationController::class, 'home'])->name('Registration.home');
 Route::get('/logout', [RegistrationController::class, 'logout'])->name('Registration.logout');
+
+Route::resource("/user", UserController::class);
