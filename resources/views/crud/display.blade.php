@@ -37,10 +37,12 @@
                                                 View
                                             </button>
                                         </a>
-                                        <a href="{{ url('/user/' . $item->id . '/edit') }}" title="Edit User"><button
-                                                class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
-                                                    aria-hidden="true"></i>
-                                                Edit</button></a>
+                                        <a href="{{ url('/user/' . $item->id . '/edit') }}" title="Edit User">
+                                            <button class="btn btn-primary btn-sm">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                Edit
+                                            </button>
+                                        </a>
 
                                         <button type="button" class="btn btn-danger btn-sm" title="Delete User"
                                             data-toggle="modal" data-target="#deleteConfirmationModal"

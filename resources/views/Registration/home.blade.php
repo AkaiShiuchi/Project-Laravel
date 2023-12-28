@@ -9,11 +9,11 @@
 <body>
     <div>
         <h2>Đây là trang chủ</h2>
-        <button>
+        <!-- <button>
             <a href="{{ url('/home') }}" class="btn btn-success btn-sm" title="Trang Chu">
                 Trang chu
             </a>
-        </button>
+        </button> -->
         <button>
             <a href="{{ url('/user') }}" class="btn btn-success btn-sm" title="List User">
                 List User
