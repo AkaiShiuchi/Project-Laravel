@@ -19,7 +19,11 @@
                 List User
             </a>
         </button>
-
+        <button>
+            <a href="{{ url('/login') }}" class="btn btn-success btn-sm" title="Login">
+                Log out
+            </a>
+        </button>
     </div>
 </body>
 

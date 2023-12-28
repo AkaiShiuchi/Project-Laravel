@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Requests\ValidateAddCRUD;
+use App\Http\Requests\ValidateEditCRUD;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -29,11 +33,18 @@ class UserController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ValidateAddCRUD $request)
     {
-        $input = $request->all();
-        User::create($input);
-        return redirect('user')->with('flash_message', 'User Addedd!');
+        $input = DB::table('users')->where('email', $request->email)->first();
+
+        if (!$input) {
+            $newUser = new User();
+            $newUser->fill($request->all())->save();
+
+            return redirect('user')->with('message', 'User Addedd!');
+        } else {
+            return redirect('user/create')->with('message', 'Add failed!');
+        }
     }
 
     /**
@@ -67,12 +78,29 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ValidateEditCRUD $request, $id)
     {
         $users = User::find($id);
-        $input = $request->all();
-        $users->update($input);
-        return redirect('user')->with('flash_message', 'user Updated!');
+
+        if ($users) {
+            if (Hash::check($request->current_password, $users->password)) {
+                dd(1);
+                $users->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => $request->new_password,
+                ]);
+                return redirect('user')->with('flash_message', 'user Updated!');
+            } else {
+                dd(2);
+                return redirect('user/edit')->with('message', 'Your password is incorrect!');
+            }
+            // $id = $request->all();
+            // $users->update($id);
+            // return redirect('user')->with('flash_message', 'user Updated!');
+        } else {
+            return redirect('user/edit')->with('message', 'user update failded!');
+        }
     }
 
     /**
@@ -83,7 +111,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::destroy($id);
+        $id = User::find($id);
+        $id->delete();
+        // notify()->success('user deleted!');
         return redirect('user')->with('flash_message', 'user deleted!');
     }
 }
