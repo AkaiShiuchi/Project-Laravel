@@ -39,7 +39,18 @@ class UserController extends Controller
 
         if (!$input) {
             $newUser = new User();
-            $newUser->fill($request->all())->save();
+            $pass = Hash::make($request->password);
+            $newUser->name = $request->name;
+            $newUser->email = $request->email;
+            $newUser->password = $pass;
+            // $data = [
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'password' => $pass
+            // ];
+            $newUser->save();
+            dd(Hash::check($request->password, $newUser->password));
+
 
             return redirect('user')->with('message', 'User Addedd!');
         } else {
@@ -81,9 +92,12 @@ class UserController extends Controller
     public function update(ValidateEditCRUD $request, $id)
     {
         $users = User::find($id);
+        dd($users->password);
 
         if ($users) {
-            if (Hash::check($request->current_password, $users->password)) {
+            $pass = Hash::make(12345678);
+            // dd(Hash::check(12345678, $pass));
+            if (Hash::check(12345678, $users->password)) {
                 dd(1);
                 $users->update([
                     'name' => $request->name,
