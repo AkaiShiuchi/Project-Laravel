@@ -48,11 +48,40 @@
 
                                         <button type="button" class="btn btn-danger btn-sm" title="Delete User"
                                             data-toggle="modal" data-target="#deleteConfirmationModal"
-                                            data-delete-url="{{ url('/user/' . $item->id) }}">
+                                            data-delete-url="{{ route('user.destroy', $item->id) }}">
                                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                                             Delete
                                         </button>
-
+                                        <!-- Modal for Delete Confirmation -->
+                                        <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteConfirmationModalLabel">
+                                                            Confirm Delete</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete this user?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Cancel</button>
+                                                        <form id="deleteForm" method="POST"
+                                                            action="{{ route('user.destroy', $item->id) }}"
+                                                            style="display:inline">
+                                                            {{ method_field('DELETE') }}
+                                                            {{ csrf_field() }}
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -66,6 +95,5 @@
     </div>
 </div>
 
-@include('crud.modal.deleteModal')
 
 @endsection

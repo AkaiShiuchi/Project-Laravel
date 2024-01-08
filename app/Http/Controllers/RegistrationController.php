@@ -19,14 +19,16 @@ class RegistrationController extends Controller
     public function store(StoreUserRequest $request)
     {
         try {
-
-
             $user = DB::table('users')->where('email', $request->email)->first();
 
             if (!$user) {
                 $newUser = new User();
 
-                $newUser->fill($request->all())->save();
+                $newUser->fill([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => bcrypt($request->password),
+                ])->save();
 
                 return redirect()->route('Registration.login')->with('message', 'You sign up sucessfully');
 

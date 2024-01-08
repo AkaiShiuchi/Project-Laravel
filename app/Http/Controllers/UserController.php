@@ -9,6 +9,7 @@ use App\Http\Requests\ValidateEditCRUD;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+
 class UserController extends Controller
 {
     public function index()
@@ -39,21 +40,17 @@ class UserController extends Controller
 
         if (!$input) {
             $newUser = new User();
-            $pass = Hash::make($request->password);
-            $newUser->name = $request->name;
-            $newUser->email = $request->email;
-            $newUser->password = $pass;
-            // $data = [
-            //     'name' => $request->name,
-            //     'email' => $request->email,
-            //     'password' => $pass
-            // ];
-            $newUser->save();
-            dd(Hash::check($request->password, $newUser->password));
 
+            $newUser->fill([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ])->save();
 
+            toastr()->success('User Addedd!');
             return redirect('user')->with('message', 'User Addedd!');
         } else {
+            toastr()->error('Add failed!');
             return redirect('user/create')->with('message', 'Add failed!');
         }
     }
@@ -66,6 +63,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
+
         $users = User::find($id);
         return view('crud.show')->with('users', $users);
     }
@@ -78,6 +76,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+
         $users = User::find($id);
         return view('crud.edit')->with('users', $users);
     }
@@ -92,22 +91,21 @@ class UserController extends Controller
     public function update(ValidateEditCRUD $request, $id)
     {
         $users = User::find($id);
-        dd($users->password);
 
         if ($users) {
-            $pass = Hash::make(12345678);
-            // dd(Hash::check(12345678, $pass));
-            if (Hash::check(12345678, $users->password)) {
-                dd(1);
+
+            if (Hash::check($request->current_password, $users->password)) {
                 $users->update([
                     'name' => $request->name,
                     'email' => $request->email,
-                    'password' => $request->new_password,
+                    'password' => bcrypt($request->new_password),
                 ]);
-                return redirect('user')->with('flash_message', 'user Updated!');
+                toastr()->success('User Updated!');
+                return redirect('user');
             } else {
-                dd(2);
-                return redirect('user/edit')->with('message', 'Your password is incorrect!');
+                toastr()->error('Your password is incorrect!');
+                // return redirect('user/edit');
+                return back();
             }
             // $id = $request->all();
             // $users->update($id);
@@ -125,9 +123,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $id = User::find($id);
-        $id->delete();
-        // notify()->success('user deleted!');
+
+        $idUser = User::find($id);
+        dd($idUser);
+        $idUser->delete();
+        toastr()->success('User deleted!');
         return redirect('user')->with('flash_message', 'user deleted!');
     }
 }
