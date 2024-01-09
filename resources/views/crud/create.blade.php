@@ -26,6 +26,10 @@
             <input type="password" name="password" id="password" class="form-control"></br>
             <label>Confirm Password</label></br>
             <input type="password" name="confirm_password" id="password" class="form-control"></br>
+            <input type="radio" name="role" id="admin" value="admin">
+            <label for="admin">Admin</label></br>
+            <input type="radio" name="role" id="super_admin" value="super_admin">
+            <label for="super_admin">Super Admin</label></br>
             <input type="submit" value="Save" class="btn btn-success"></br>
         </form>
 

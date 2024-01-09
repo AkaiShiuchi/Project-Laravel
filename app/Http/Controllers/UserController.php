@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\ValidateAddCRUD;
@@ -40,11 +41,20 @@ class UserController extends Controller
 
         if (!$input) {
             $newUser = new User();
-
+            if ($request->role == 'admin') {
+                $role_id = Role::where('user_name', 'admin')
+                    ->first()
+                    ->id;
+            } elseif ($request->role == 'super_admin') {
+                $role_id = Role::where('user_name', 'super_admin')
+                    ->first()
+                    ->id;
+            }
             $newUser->fill([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
+                'role_id' => $role_id
             ])->save();
 
             toastr()->success('User Addedd!');

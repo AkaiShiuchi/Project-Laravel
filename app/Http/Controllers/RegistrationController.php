@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -55,6 +56,19 @@ class RegistrationController extends Controller
     public function handleLogin(Request $request)
     {
         $check = $request->only('email', 'password');
+        // if ($check = User::where('role_id' != null)) {
+        //     if ($request->role == 'admin') {
+        //         $check = Role::where('user_name', 'admin')
+        //             ->first()
+        //             ->id;
+        //     } elseif ($request->role == 'super_admin') {
+        //         $check = Role::where('user_name', 'super_admin')
+        //             ->first()
+        //             ->id;
+        //     }
+        // } else {
+        //     return back()->withErrors(['role' => 'The account has not been authorized']);
+        // }
 
         if (Auth::attempt($check)) {
             // đăng nhập thành công
@@ -62,7 +76,6 @@ class RegistrationController extends Controller
         }
         // đăng nhập thất bại
         return back()->withErrors(['email' => 'Invalid email or password.']);
-
     }
 
     public function logout()
