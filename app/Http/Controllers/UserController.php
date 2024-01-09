@@ -101,15 +101,11 @@ class UserController extends Controller
                     'password' => bcrypt($request->new_password),
                 ]);
                 toastr()->success('User Updated!');
-                return redirect('user');
+                return redirect('user')->with('message', 'User Updated!');
             } else {
                 toastr()->error('Your password is incorrect!');
-                // return redirect('user/edit');
-                return back();
+                return redirect()->back();
             }
-            // $id = $request->all();
-            // $users->update($id);
-            // return redirect('user')->with('flash_message', 'user Updated!');
         } else {
             return redirect('user/edit')->with('message', 'user update failded!');
         }
@@ -125,7 +121,6 @@ class UserController extends Controller
     {
 
         $idUser = User::find($id);
-        dd($idUser);
         $idUser->delete();
         toastr()->success('User deleted!');
         return redirect('user')->with('flash_message', 'user deleted!');

@@ -14,8 +14,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form id="deleteForm" method="POST" action="{{ route('user.destroy', $item->id) }}"
-                    style="display:inline">
+                <form id="deleteForm" method="POST" action="{{ url('/user/' . $item->id) }}" style="display:inline">
                     {{ method_field('DELETE') }}
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -24,12 +23,11 @@
         </div>
     </div>
 </div>
-<!-- <script>
+<script>
     $('#deleteConfirmationModal').on('show.bs.modal', function (event) {
-        console.log(1);
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var deleteUrl = button.data('delete-url'); // Extract info from data-* attributes
+        var button = $(event.relatedTarget);
+        var deleteUrl = button.data('delete-url');
         var modal = $(this);
         modal.find('#deleteForm').attr('action', deleteUrl);
     });
-</script> -->
+</script>
