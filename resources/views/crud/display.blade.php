@@ -8,9 +8,11 @@
                     <h2>CRUD with Laravel</h2>
                 </div>
                 <div class="card-body">
+                    @if ($is_super_admin)
                     <a href="{{ url('/user/create') }}" class="btn btn-success btn-sm" title="Add New User">
                         Add New
                     </a>
+                    @endif
                     <a href="{{ url('/home') }}" class="btn btn-success btn-sm" title="Home">
                         Home
                     </a>
@@ -39,12 +41,14 @@
                                                 View
                                             </button>
                                         </a>
+                                        @if ($is_super_admin)
                                         <a href="{{ url('/user/' . $item->id . '/edit') }}" title="Edit User">
                                             <button class="btn btn-primary btn-sm">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 Edit
                                             </button>
                                         </a>
+                                        @endif
 
                                         <button type="button" class="btn btn-danger btn-sm" title="Delete User"
                                             data-toggle="modal" data-target="#deleteConfirmationModal"

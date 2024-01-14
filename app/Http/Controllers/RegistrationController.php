@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+
 class RegistrationController extends Controller
 {
     public function create()
@@ -25,10 +26,21 @@ class RegistrationController extends Controller
             if (!$user) {
                 $newUser = new User();
 
+                if ($request->role == 'admin') {
+                    $role_id = Role::where('user_name', 'admin')
+                        ->first()
+                        ->id;
+                } elseif ($request->role == 'super_admin') {
+                    $role_id = Role::where('user_name', 'super_admin')
+                        ->first()
+                        ->id;
+                }
+
                 $newUser->fill([
                     'name' => $request->name,
                     'email' => $request->email,
                     'password' => bcrypt($request->password),
+                    'role_id' => $role_id
                 ])->save();
 
                 return redirect()->route('Registration.login')->with('message', 'You sign up sucessfully');
@@ -48,7 +60,7 @@ class RegistrationController extends Controller
         return view('Registration.login');
     }
 
-    public function home()
+    public function home(Request $request)
     {
         return view('Registration.home');
     }
@@ -56,22 +68,9 @@ class RegistrationController extends Controller
     public function handleLogin(Request $request)
     {
         $check = $request->only('email', 'password');
-        // if ($check = User::where('role_id' != null)) {
-        //     if ($request->role == 'admin') {
-        //         $check = Role::where('user_name', 'admin')
-        //             ->first()
-        //             ->id;
-        //     } elseif ($request->role == 'super_admin') {
-        //         $check = Role::where('user_name', 'super_admin')
-        //             ->first()
-        //             ->id;
-        //     }
-        // } else {
-        //     return back()->withErrors(['role' => 'The account has not been authorized']);
-        // }
 
         if (Auth::attempt($check)) {
-            // đăng nhập thành công
+            // kiểm tra role đăng nhập
             return redirect()->route('Registration.home');
         }
         // đăng nhập thất bại

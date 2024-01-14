@@ -9,19 +9,19 @@
 <body>
     <div>
         <h2>Đây là trang chủ</h2>
-        <!-- <button>
-            <a href="{{ url('/home') }}" class="btn btn-success btn-sm" title="Trang Chu">
-                Trang chu
-            </a>
-        </button> -->
         <button>
             <a href="{{ url('/user') }}" class="btn btn-success btn-sm" title="List User">
                 List User
             </a>
         </button>
         <button>
-            <a href="{{ url('/login') }}" class="btn btn-success btn-sm" title="Login">
+            <a href="{{ url('/login') }}" class="btn btn-success btn-sm" title="Log Out">
                 Log out
+            </a>
+        </button>
+        <button>
+            <a href="{{ url('/product') }}" class="btn btn-success btn-sm" title="List Product">
+                Product
             </a>
         </button>
     </div>

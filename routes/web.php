@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\UserController;
-
 
 
 Route::get('/', function () {
@@ -20,3 +20,9 @@ Route::get('/home', [RegistrationController::class, 'home'])->name('Registration
 Route::get('/logout', [RegistrationController::class, 'logout'])->name('Registration.logout');
 
 Route::resource("/user", UserController::class);
+
+Route::get('/product', [ProductController::class, 'display']);
+
+Route::get('/file-import', [ProductController::class, 'importView'])->name('import-view');
+Route::post('/import', [ProductController::class, 'import'])->name('import');
+Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');

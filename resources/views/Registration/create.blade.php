@@ -41,6 +41,16 @@
                 required="required">
         </div>
 
+        <div class="form-check form-check-inline mb-0 me-4">
+            <input class="form-check-input" type="radio" name="role" id="admin" value="admin" />
+            <label class="form-check-label" for="role">Admin</label>
+        </div>
+
+        <div class="form-check form-check-inline mb-0 me-4">
+            <input class="form-check-input" type="radio" name="role" id="super_admin" value="super_admin" />
+            <label class="form-check-label" for="role">Super Admin</label>
+        </div>
+
         <div class="form-group">
             <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
         </div>

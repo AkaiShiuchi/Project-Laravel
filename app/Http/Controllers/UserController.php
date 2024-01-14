@@ -9,14 +9,17 @@ use App\Http\Requests\ValidateAddCRUD;
 use App\Http\Requests\ValidateEditCRUD;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     {
         $users = User::all();
-        return view('crud.display')->with('users', $users);
+        $isSuperAdmin = Auth::User()->role_id == User::SUPER_ADMIN;
+        return view('crud.display')
+            ->with('users', $users)
+            ->with('is_super_admin', $isSuperAdmin);
     }
 
     /**
@@ -73,7 +76,6 @@ class UserController extends Controller
      */
     public function show($id)
     {
-
         $users = User::find($id);
         return view('crud.show')->with('users', $users);
     }
@@ -86,7 +88,6 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-
         $users = User::find($id);
         return view('crud.edit')->with('users', $users);
     }
@@ -129,7 +130,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-
         $idUser = User::find($id);
         $idUser->delete();
         toastr()->success('User deleted!');
