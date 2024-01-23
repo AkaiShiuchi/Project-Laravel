@@ -31,4 +31,24 @@ class ProductController extends Controller
     {
         return Excel::download(new ExportProduct, 'products.csv');
     }
+
+    public function upload(Request $request)
+    {
+        // Kiểm tra nếu có file được chọn
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            // Lưu file vào thư mục 'public/uploads'
+            $path = $file->store('public/uploads');
+
+            $product = Product::where('id', $request->product_id)->first();
+            $product->update([
+                'image' => $product->image = $path
+            ]);
+            toastr()->success('Upload successful');
+            return redirect()->back();
+        }
+        toastr()->error('No file selected.');
+        return redirect()->back();
+    }
 }

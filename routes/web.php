@@ -26,3 +26,5 @@ Route::get('/product', [ProductController::class, 'display']);
 Route::get('/file-import', [ProductController::class, 'importView'])->name('import-view');
 Route::post('/import', [ProductController::class, 'import'])->name('import');
 Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
+
+Route::post('/upload', [ProductController::class, 'upload'])->name('upload');
