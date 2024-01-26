@@ -21,10 +21,12 @@ Route::get('/logout', [RegistrationController::class, 'logout'])->name('Registra
 
 Route::resource("/user", UserController::class);
 
-Route::get('/product', [ProductController::class, 'display']);
+Route::get('/product', [ProductController::class, 'display'])->name('product');
+
+Route::post('/add-product', [ProductController::class, 'AddProduct'])->name('add-product');
 
 Route::get('/file-import', [ProductController::class, 'importView'])->name('import-view');
 Route::post('/import', [ProductController::class, 'import'])->name('import');
 Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
 
-Route::post('/upload', [ProductController::class, 'upload'])->name('upload');
+// Route::post('/upload', [ProductController::class, 'upload'])->name('upload');

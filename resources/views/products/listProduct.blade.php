@@ -18,6 +18,10 @@
                                 <label for="customFile" class="btn btn-success btn-sm">Choose file</label>
                             </div>
                         </div>
+                        <button type="button" class="btn btn-success btn-sm" title="Add New" data-toggle="modal"
+                            data-target="#addNewModal">
+                            Add New
+                        </button>
                         <button class="btn btn-success btn-sm">Import</button>
                         <a href="{{ route('export-products') }}" class="btn btn-success btn-sm" title="Export">Export</a>
                     </form>
@@ -37,14 +41,8 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->describe }}</td>
                                     <td>
-                                        <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{ $item->id }}" />
-                                            <input type="file" name="file" id="fileInput">
-                                            <img id="imagePreview" src="#" alt="Uploaded Image" style="display: none"
-                                                width="100px">
-                                            <button type="submit" class="btn btn-success btn-sm">Upload</button>
-                                        </form>
+                                        <img src="{{ asset('storage/uploads/' . $item->image) }}" width="100px"
+                                            alt="Product Image">
                                     </td>
                                 </tr>
                             @endforeach
@@ -52,28 +50,9 @@
                     </table>
                 </div>
 
-                <script>
-                    document.getElementById('fileInput').addEventListener('change', function(e) {
-                        var fileInput = e.target;
-                        var imagePreview = document.getElementById('imagePreview');
-
-                        if (fileInput.files && fileInput.files[0]) {
-                            var reader = new FileReader();
-
-                            reader.onload = function(e) {
-                                imagePreview.src = e.target.result;
-                                imagePreview.style.display = 'block';
-                            };
-
-                            reader.readAsDataURL(fileInput.files[0]);
-                        } else {
-                            imagePreview.src = '#';
-                            imagePreview.style.display = 'none';
-                        }
-                    });
-                </script>
-
             </div>
         </div>
     </div>
+
+    @include('products.modal.addNewProduct')
 @endsection
