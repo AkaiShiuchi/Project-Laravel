@@ -18,8 +18,8 @@ class CheckAdminRole
     {
         $user = Auth::User();
         //1:admin, 2:super admin
-        if ($user && $user->role_id === '1') {
-            abort(401);
+        if ($user && $user->role_id === '2') {
+            return $next($request);
         }
         return redirect('/home');
     }

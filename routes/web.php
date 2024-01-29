@@ -14,17 +14,16 @@ Route::get('/register', [RegistrationController::class, 'create'])->name('Regist
 Route::post('/create-user', [RegistrationController::class, 'store'])->name('Registration.create-user');
 
 Route::get('/login', [RegistrationController::class, 'showLogin'])->name('Registration.login');
+Route::post('/handleLogin', [RegistrationController::class, 'handleLogin'])->name('Registration.handle');
 
-Route::middleware(['web', 'auth'])->group(function () {
-    Route::post('/handleLogin', [RegistrationController::class, 'handleLogin'])->name('Registration.handle');
-
+Route::middleware(['checkLogin', 'auth'])->group(function () {
     Route::get('/home', [RegistrationController::class, 'home'])->name('Registration.home');
     Route::get('/logout', [RegistrationController::class, 'logout'])->name('Registration.logout');
 
     Route::get('/product', [ProductController::class, 'display'])->name('product');
 });
 
-Route::middleware(['web', 'auth', 'checkAdminRole'])->group(function () {
+Route::middleware(['checkLogin', 'auth', 'checkAdminRole'])->group(function () {
     Route::resource("/user", UserController::class);
 
     Route::post('/add-product', [ProductController::class, 'AddProduct'])->name('add-product');

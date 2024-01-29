@@ -15,7 +15,7 @@
             </a>
         </button>
         <button>
-            <a href="{{ url('/login') }}" class="btn btn-success btn-sm" title="Log Out">
+            <a href="{{ url('/logout') }}" class="btn btn-success btn-sm" title="Log Out">
                 Log out
             </a>
         </button>

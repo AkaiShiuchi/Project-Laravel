@@ -81,6 +81,7 @@ class RegistrationController extends Controller
     {
         Auth::logout(); // Đăng xuất người dùng
         Session::flush();
+        Session::regenerate();
         return redirect()->route('Registration.login'); // Điều hướng đến trang đăng nhập
     }
 }
