@@ -14,19 +14,22 @@ Route::get('/register', [RegistrationController::class, 'create'])->name('Regist
 Route::post('/create-user', [RegistrationController::class, 'store'])->name('Registration.create-user');
 
 Route::get('/login', [RegistrationController::class, 'showLogin'])->name('Registration.login');
-Route::post('/handleLogin', [RegistrationController::class, 'handleLogin'])->name('Registration.handle');
 
-Route::get('/home', [RegistrationController::class, 'home'])->name('Registration.home');
-Route::get('/logout', [RegistrationController::class, 'logout'])->name('Registration.logout');
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::post('/handleLogin', [RegistrationController::class, 'handleLogin'])->name('Registration.handle');
 
-Route::resource("/user", UserController::class);
+    Route::get('/home', [RegistrationController::class, 'home'])->name('Registration.home');
+    Route::get('/logout', [RegistrationController::class, 'logout'])->name('Registration.logout');
 
-Route::get('/product', [ProductController::class, 'display'])->name('product');
+    Route::get('/product', [ProductController::class, 'display'])->name('product');
+});
 
-Route::post('/add-product', [ProductController::class, 'AddProduct'])->name('add-product');
+Route::middleware(['web', 'auth', 'checkAdminRole'])->group(function () {
+    Route::resource("/user", UserController::class);
 
-Route::get('/file-import', [ProductController::class, 'importView'])->name('import-view');
-Route::post('/import', [ProductController::class, 'import'])->name('import');
-Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
+    Route::post('/add-product', [ProductController::class, 'AddProduct'])->name('add-product');
 
-// Route::post('/upload', [ProductController::class, 'upload'])->name('upload');
+    Route::get('/file-import', [ProductController::class, 'importView'])->name('import-view');
+    Route::post('/import', [ProductController::class, 'import'])->name('import');
+    Route::get('/export-products', [ProductController::class, 'exportProducts'])->name('export-products');
+});

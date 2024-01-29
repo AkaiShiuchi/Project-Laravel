@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Session;
 
 class RegistrationController extends Controller
 {
@@ -77,9 +77,10 @@ class RegistrationController extends Controller
         return back()->withErrors(['email' => 'Invalid email or password.']);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout(); // Đăng xuất người dùng
+        Session::flush();
         return redirect()->route('Registration.login'); // Điều hướng đến trang đăng nhập
     }
 }
